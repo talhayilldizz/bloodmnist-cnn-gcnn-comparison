@@ -1,0 +1,21 @@
+Final test metrikleri
+accuracy: 0.9164
+macro_precision: 0.9199
+macro_recall: 0.8999
+macro_f1: 0.9084
+
+Sınıf raporu
+                                                                     precision    recall  f1-score   support
+
+                                                           basophil     0.8607    0.8607    0.8607       244
+                                                         eosinophil     0.9642    0.9920    0.9779       624
+                                                       erythroblast     0.9683    0.8842    0.9244       311
+immature granulocytes(myelocytes, metamyelocytes and promyelocytes)     0.7563    0.8791    0.8131       579
+                                                         lymphocyte     0.9509    0.8765    0.9122       243
+                                                           monocyte     0.8845    0.7817    0.8299       284
+                                                         neutrophil     0.9763    0.9294    0.9523       666
+                                                           platelet     0.9979    0.9957    0.9968       470
+
+                                                           accuracy                         0.9164      3421
+                                                          macro avg     0.9199    0.8999    0.9084      3421
+                                                       weighted avg     0.9214    0.9164    0.9174      3421
