@@ -17,7 +17,6 @@ datasets/
 # ==============================
 checkpoints/
 runs/
-logs/
 tensorboard/
 wandb/
 mlruns/
