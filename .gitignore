@@ -76,6 +76,9 @@ Thumbs.db
 *.tmp
 *.temp
 
+# Low-data run histories are reproducible per-seed details; keep the summary CSV.
+/outputs/logs/low_data/*_history.csv
+
 # ==============================
 # OS-generated files
 # ==============================
