@@ -1,0 +1,84 @@
+# ==============================
+# Dataset and downloaded data
+# ==============================
+data/
+datasets/
+*.npz
+*.npy
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# ==============================
+# Model checkpoints and outputs
+# ==============================
+outputs/
+checkpoints/
+runs/
+logs/
+tensorboard/
+wandb/
+mlruns/
+
+# Keep experiment result tables if desired
+!experiments/results.csv
+
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# ==============================
+# Virtual environments
+# ==============================
+.venv/
+venv/
+env/
+ENV/
+
+# ==============================
+# Jupyter
+# ==============================
+.ipynb_checkpoints/
+.profile/
+.ipython/
+
+# ==============================
+# IDE and editor
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ==============================
+# Environment variables and secrets
+# ==============================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ==============================
+# Logs and temporary files
+# ==============================
+*.log
+*.tmp
+*.temp
+
+# ==============================
+# OS-generated files
+# ==============================
+desktop.ini
