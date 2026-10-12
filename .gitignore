@@ -1,8 +1,8 @@
 # ==============================
 # Dataset and downloaded data
 # ==============================
-data/
-datasets/
+/data/
+/datasets/
 *.npz
 *.npy
 *.h5
