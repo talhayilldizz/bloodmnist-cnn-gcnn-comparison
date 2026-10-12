@@ -2,7 +2,7 @@ import csv
 import sys
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
 import matplotlib.pyplot as plt
@@ -11,7 +11,7 @@ from configs.experiment_config import CONFIG
 
 
 def main() -> None:
-    history_path = CONFIG.log_dir / "gcnn_p4_history.csv"
+    history_path = CONFIG.log_dir / "baseline_cnn_history.csv"
 
     if not history_path.exists():
         raise FileNotFoundError(
@@ -45,11 +45,11 @@ def main() -> None:
         axis.grid(alpha=0.3)
         axis.legend()
 
-    figure.suptitle("P4 G-CNN — eğitim ve validation eğrileri")
+    figure.suptitle("Baseline CNN — eğitim ve validation eğrileri")
     figure.tight_layout()
 
     CONFIG.plot_dir.mkdir(parents=True, exist_ok=True)
-    plot_path = CONFIG.plot_dir / "gcnn_p4_training_curves.png"
+    plot_path = CONFIG.plot_dir / "baseline_training_curves.png"
     figure.savefig(plot_path, dpi=160, bbox_inches="tight")
 
     print(f"Grafik kaydedildi: {plot_path}")

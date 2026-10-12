@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
@@ -10,7 +10,7 @@ from torch import nn
 
 from configs.experiment_config import CONFIG
 from src.bloodmnist.dataa.dataset import BloodMNISTDataModule
-from src.bloodmnist.models.gcnn import GroupEquivariantCNN
+from src.bloodmnist.models.cnn import BaselineCNN
 from src.bloodmnist.training.trainer import Trainer
 from src.bloodmnist.utils.device import resolve_device
 from src.bloodmnist.utils.reproducibility import set_seed
@@ -23,18 +23,10 @@ def main() -> None:
     device = resolve_device(config.device)
     print(f"Cihaz: {device}")
 
-    # G-CNN için eğitim ve validation dönüşümleri yalnızca ToTensor.
     data = BloodMNISTDataModule(config)
     data.setup()
 
-    model = GroupEquivariantCNN(num_classes=config.num_classes)
-    parameter_count = sum(
-        parameter.numel()
-        for parameter in model.parameters()
-        if parameter.requires_grad
-    )
-    print(f"Eğitilebilir parametre sayısı: {parameter_count}")
-
+    model = BaselineCNN(num_classes=config.num_classes)
     optimizer = torch.optim.AdamW(
         model.parameters(),
         lr=config.learning_rate,
@@ -55,14 +47,14 @@ def main() -> None:
         val_loader=data.val_dataloader(),
         epochs=config.epochs,
         checkpoint_path=(
-            config.checkpoint_dir / "gcnn_p4_best.pt"
+            config.checkpoint_dir / "baseline_cnn_best.pt"
         ),
         history_path=(
-            config.log_dir / "gcnn_p4_history.csv"
+            config.log_dir / "baseline_cnn_history.csv"
         ),
     )
 
-    print("\nP4 G-CNN eğitimi tamamlandı.")
+    print("\nBaseline eğitimi tamamlandı.")
     print(f"En iyi epoch: {result['best_epoch']}")
     print(
         f"En iyi validation {result['selection_metric']}: "

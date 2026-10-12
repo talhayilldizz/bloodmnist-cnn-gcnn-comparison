@@ -7,7 +7,10 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 import torch
 
-from src.bloodmnist.models.gcnn import GroupEquivariantCNN
+from src.bloodmnist.models.gcnn import (
+    GroupEquivariantCNN,
+    group_max_pool,
+)
 from src.bloodmnist.models.group_ops import (
     P4GroupConv2d,
     P4LiftConv2d,
@@ -18,6 +21,26 @@ from src.bloodmnist.models.group_ops import (
 class P4EquivarianceTests(unittest.TestCase):
     def setUp(self) -> None:
         torch.manual_seed(7)
+
+    def test_p4_action_obeys_group_composition(self) -> None:
+        features = torch.randn(2, 3, 4, 11, 11)
+
+        for first_turn in range(4):
+            for second_turn in range(4):
+                composed = apply_p4_action(
+                    apply_p4_action(features, second_turn),
+                    first_turn,
+                )
+                expected = apply_p4_action(
+                    features,
+                    first_turn + second_turn,
+                )
+                torch.testing.assert_close(
+                    composed,
+                    expected,
+                    rtol=0,
+                    atol=0,
+                )
 
     def test_lifting_convolution_is_p4_equivariant(self) -> None:
         layer = P4LiftConv2d(3, 5, kernel_size=3).eval()
@@ -67,6 +90,29 @@ class P4EquivarianceTests(unittest.TestCase):
                     rtol=1e-4,
                     atol=1e-5,
                 )
+
+    def test_group_max_pool_is_p4_equivariant(self) -> None:
+        # Ağda pooling 28x28 ve 14x14 kare haritalara uygulanır; burada
+        # 14x14 kullanılarak 90 derece dönüşte blok hizası korunur.
+        features = torch.randn(2, 3, 4, 14, 14)
+
+        original_output = group_max_pool(features)
+        for quarter_turns in (1, 2, 3):
+            transformed_input = apply_p4_action(
+                features,
+                quarter_turns,
+            )
+            actual = group_max_pool(transformed_input)
+            expected = apply_p4_action(
+                original_output,
+                quarter_turns,
+            )
+            torch.testing.assert_close(
+                actual,
+                expected,
+                rtol=0,
+                atol=0,
+            )
 
     def test_classifier_logits_are_rotation_invariant(self) -> None:
         model = GroupEquivariantCNN(num_classes=8).eval()
